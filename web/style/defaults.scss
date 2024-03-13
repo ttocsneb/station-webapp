@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+
+hr {
+    margin-bottom: 16px;
+}
+
+a {
+    color: $primary;
+    text-decoration: none;
+
+    @media only print {
+        &::after {
+            content: " <"attr(href)">"
+        }
+    }
+}
+
+a:hover {
+    @include underline;
+}
+
+
+ul, ol, p, blockquote {
+    margin-bottom: 8px;
+}
+
+blockquote, pre {
+    margin-right: 0px;
+    margin-left: 0px;
+    max-width: 80ex;
+    width: auto;
+
+    @media only print {
+        max-width: 100%;
+    }
+}
+
+blockquote {
+    padding-left: 40px;
+}
+
+code {
+    font-family: sans-serif;
+    font-size: medium;
+    color: var(--hl-var);
+}
+
+pre code {
+    padding-left: 40px;
+}
+
+pre {
+    max-width: calc(100vw - 16px);
+
+    @include size("sm") {
+        width: calc(80ex - 2em + 5px);
+    }
+}
+
+p, blockquote {
+    max-width: 80ex;
+    text-align: justify;
+    text-justify: inter-word;
+
+    @include size("sm") {
+        text-align: left;
+    }
+}
+
+ul {
+    list-style-type: circle;
+    > li {
+        margin-left: 2rem;
+        margin-bottom: 8px;
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+}
+
+img {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+body {
+    background-color: $light;
+    color: $text-dark;
+
+    > :not(.body) {
+        flex-shrink: 0;
+    }
+    > .body {
+        flex: 1 0 auto;
+    }
+
+    @media only print {
+        background-color: $white;
+    }
+}
+
+hr {
+    border-bottom: 1px solid $dark;
+}

@@ -1,0 +1,86 @@
+// CSS Variables
+
+// Sizes
+
+$size-xs: 0px;
+$size-sm: 750px;
+$size-md: 1000px;
+$size-lg: 1200px;
+
+// Colors
+
+$color-primary: #007bff;
+$color-white: #fff;
+$color-secondary: #6c757d;
+$color-success: #28a745;
+$color-info: #17a2b8;
+$color-warning: #ffc107;
+$color-danger: #dc3545;
+$color-light: #f8f9fa;
+$color-dark: #343a40;
+
+$text-color-light: #fff;
+$text-color-dark: #000;
+$text-color-gray: lighten($color-dark, 50%);
+
+$primary: var(--primary);
+$secondary: var(--secondary);
+$success: var(--success);
+$danger: var(--danger);
+$warning: var(--warning);
+$info: var(--info);
+$light: var(--light);
+$dark: var(--dark);
+$white: var(--white);
+
+$text-light: var(--text-light);
+$text-dark: var(--text-dark);
+$text-gray: var(--text-gray);
+
+$colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "danger": $danger,
+    "warning": $warning,
+    "info": $info,
+    "light": $light,
+    "dark": $dark,
+    "white": $white
+);
+
+$color-pairs: (
+    "primary": ($primary, $text-color-light),
+    "secondary": ($secondary, $text-color-light),
+    "success": ($success, $text-color-light),
+    "danger": ($danger, $text-color-light),
+    "warning": ($warning, $text-color-light),
+    "info": ($info, $text-color-light),
+    "light": ($light, $text-dark),
+    "dark": ($dark, $text-light),
+    "white": ($white, $text-dark)
+);
+
+:root {
+    --white: #{$color-white};
+    --primary: #{$color-primary};
+    --secondary: #{$color-secondary};
+    --success: #{$color-success};
+    --info: #{$color-info};
+    --warning: #{$color-warning};
+    --danger: #{$color-danger};
+    --light: #{$color-light};
+    --dark: #{$color-dark};
+    --text-light: #{$text-color-light};
+    --text-dark: #{$text-color-dark};
+    --text-gray: #{$text-color-gray};
+
+    @include darkmode {
+        --white: #000;
+        --light: #{$color-dark};
+        --dark: #{$color-light};
+        --text-light: #{$text-color-dark};
+        --text-dark: #{$text-color-light};
+        --text-gray: #{lighten($color-dark, 20%)};
+    }
+}

@@ -1,0 +1,49 @@
+{{- define "content" -}}
+<div class="nav">
+  <form class="system" action="{{ route "/system/" }}">
+    <label for="system">
+      System
+    </label>
+    <select name="system" onchange="this.form.submit()">
+      <option value="imperial" 
+              {{ if eq .System "imperial" }} selected {{ end }}>
+        Imperial
+      </option>
+      <option value="metric" 
+              {{ if eq .System "metric" }} selected {{ end }}>
+        Metric
+      </option>
+      <option value="mixed" 
+              {{ if eq .System "mixed" }} selected {{ end }}>
+        Mixed
+      </option>
+    </select>
+    <input name="next" value="{{ route .Page }}" hidden>
+    <noscript>
+      <button type="submit">Save</button>
+    </noscript>
+  </form>
+  <p class="float-right">
+    {{- if not .Rapid -}}
+    <a href="{{ route "/rapid/" }}">View Rapid</a>
+    {{- else -}}
+    <a href="{{ route "/" }}">View Normal</a>
+    {{- end -}}
+  </p>
+</div>
+
+
+<h1>Weather Conditions</h1>
+
+<div hx-ext="sse" 
+    {{ if not .Rapid -}}
+     sse-connect="{{ route "/sse/updates/" }}" 
+    {{- else -}}
+     sse-connect="{{ route "/sse/rapid-updates/" }}" 
+    {{- end }}
+     sse-swap="message">
+  {{ template "update-partial.html" . }}
+</div>
+{{- end -}}
+
+{{- template "base.html" . -}}

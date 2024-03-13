@@ -1,0 +1,122 @@
+{{- define "wind" -}}
+<div class="card">
+  <div class="card-title card-title-primary">
+    <h5>{{ .Title }}</h5>
+  </div>
+  <div class="card-body">
+    {{- $spd := convert .Speed "m/s" "speed" .System -}}
+    {{- $unit := get_unit .Speed "m/s" "speed" .System -}}
+    <p>{{ $spd }} {{ $unit }}</p>
+    <div title="{{ .Angle }}&deg;" aria-label="{{ cardinal_angle_aria .Angle }}">
+    {{ template "wind-include.svg" . }}
+    </div>
+  </div>
+</div>
+{{- end -}}
+
+<div class="card-list">
+  <div class="card">
+    <div class="card-title card-title-primary">
+      <h5>Temperature</h5>
+    </div>
+    <div class="card-body">
+      {{- $tmp := convert .Condition.Sensors.temp  "C" "temp" .System -}}
+      {{- $unit := get_unit .Condition.Sensors.temp  "C" "temp" .System -}}
+      <p>{{ $tmp }} {{ $unit }}</p>
+      <p>Dew Point</p>
+      {{- $tmp := convert .Condition.Sensors.dewpoint  "C" "temp" .System -}}
+      {{- $unit := get_unit .Condition.Sensors.dewpoint  "C" "temp" .System -}}
+      <span>{{ $tmp }} {{ $unit }}</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title card-title-primary">
+      <h5>Humidity</h5>
+    </div>
+    <div class="card-body">
+      <p>{{ .Condition.Sensors.humidity | round }}%</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title card-title-primary">
+      <h5>Rain</h5>
+    </div>
+    <div class="card-body">
+      <p>Hour</p>
+
+      {{- $rain := convert ( index .Condition.Sensors "rain-1h" ) "in" "rain" .System -}}
+      {{- $unit := get_unit ( index .Condition.Sensors "rain-1h" ) "in" "rain" .System -}}
+      <span>{{  $rain }} {{ $unit }}</span>
+      <p>Day</p>
+      {{- $rain = convert .Condition.Sensors.dailyrain  "in" "rain" .System -}}
+      {{- $unit = get_unit .Condition.Sensors.dailyrain  "in" "rain" .System -}}
+      <span>{{  $rain }} {{ $unit }}</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title card-title-primary">
+      <h5>Pressure</h5>
+    </div>
+    <div class="card-body">
+      {{- $pressure := convert .Condition.Sensors.barom  "hPa" "pressure" .System -}}
+      {{- $unit = get_unit .Condition.Sensors.barom  "hPa" "pressure" .System -}}
+      <p>{{ $pressure }} {{ $unit }}</p>
+    </div>
+  </div>
+  {{- if not .Rapid -}}
+  {{- template "wind" dict 
+    "Speed" ( index .Condition.Sensors "windspd-avg2m" )
+    "Angle" ( index .Condition.Sensors "winddir-avg2m" )
+    "Id" "wind" 
+    "Title" "Wind" 
+    "System" .System
+  -}}
+  {{- template "wind" dict 
+    "Speed" ( index .Condition.Sensors "windspd-avg10m" )
+    "Angle" ( index .Condition.Sensors "winddir-avg10m" )
+    "Id" "avg" 
+    "Title" "Average" 
+    "System" .System
+  -}}
+  {{- else -}}
+  {{- template "wind" dict 
+    "Speed" ( index .Condition.Sensors "windspd" )
+    "Angle" ( index .Condition.Sensors "winddir" )
+    "Id" "wind" 
+    "Title" "Wind" 
+    "System" .System
+  -}}
+  {{- template "wind" dict 
+    "Speed" ( index .Condition.Sensors "windspd-avg2m" )
+    "Angle" ( index .Condition.Sensors "winddir-avg2m" )
+    "Id" "avg" 
+    "Title" "Average" 
+    "System" .System
+  -}}
+  {{- end -}}
+  {{- template "wind" dict 
+    "Speed" ( index .Condition.Sensors "windgustspd-2m" )
+    "Angle" ( index .Condition.Sensors "windgustdir-2m" )
+    "Id" "gust" 
+    "Title" "Gust" 
+    "System" .System
+  -}}
+
+  <div class="card">
+    <div class="card-title card-title-primary">
+      <h5>UV Index</h5>
+    </div>
+    <div class="card-body">
+      <p>{{ .Condition.Sensors.uv }}</p>
+    </div>
+  </div>
+  <p>
+    Updated on <time class="live-time" datetime="{{- ftime .Condition.Time "RFC3339" -}}">
+      {{- if not .Rapid -}}
+        {{- ftime .Condition.Time "Mon, Jan 6 at 3:04 PM" -}}
+      {{- else -}}
+        {{- ftime .Condition.Time "Mon, Jan 6 at 3:04:05 PM" -}}
+      {{- end -}}
+    </time>
+  </p>
+</div>

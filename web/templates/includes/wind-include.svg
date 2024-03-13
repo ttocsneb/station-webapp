@@ -1,0 +1,31 @@
+{{- $text := cardinal_angle .Angle -}}
+<svg 
+     width="100px"
+     height="100px"
+     vewBox="0 0 100 100"
+     version="1.1"
+     id="{{ .Id }}"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:svg="http://www.w3.org/2000/svg">
+    <g>
+        <g id="{{ .Id }}-arrow"
+           transform="translate(50,50) rotate({{ .Angle }})">
+            <circle
+                    style="opacity:1;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:1;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                    r="45"/>
+            <path
+                  style="opacity:1;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+                  d="M -7.5,0 7.5,0 0,20"
+                  transform="translate(0,-48)"/>
+        </g>
+        <text id="{{ .Id }}-direction" 
+              style="fill:currentColor;font:15pt Arial"
+              x="50" 
+              y="50" 
+              text-anchor="middle" 
+              dominant-baseline="middle">
+            {{ $text }}
+        </text>
+    </g>
+</svg>
+

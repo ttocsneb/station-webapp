@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{- block "title" . -}}<title>{{ .Title }}</title>{{- end -}}
+    {{- block "header" . -}}{{- end -}}
+    <link rel="stylesheet" href="{{ route "/static/style.css" }}">
+  </head>
+  <body>
+    <script src="{{ route "/static/htmx.min.js" }}"></script>
+    <script src="{{ route "/static/sse.js" }}"></script>
+    {{- block "content" . -}} 
+    {{- end -}}
+  </body>
+</html>
