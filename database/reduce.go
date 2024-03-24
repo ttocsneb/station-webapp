@@ -24,16 +24,16 @@ func min_sensor(conditions []Condition, key string) (int, float64) {
 }
 
 func max_sensor(conditions []Condition, key string) (int, float64) {
-	min_value := conditions[0].Sensors[key]
+	max_value := conditions[0].Sensors[key]
 	index := 0
 	for i, cond := range conditions {
 		val := cond.Sensors[key]
-		if val < min_value {
-			min_value = val
+		if val > max_value {
+			max_value = val
 			index = i
 		}
 	}
-	return index, min_value
+	return index, max_value
 }
 
 func average(pairs []Pair) float64 {
@@ -173,11 +173,11 @@ func IsTimeToReduce(db *sql.DB) (bool, error) {
 // dailyrain: in
 // rain-1h: in
 // uv: UV Index
-// windspd: m/s
+// windspd: km/h
 // winddir: deg
-// windspd-avg2m: m/s
+// windspd-avg2m: km/h
 // winddir-avg2m: deg
-// windspd-avg10m: m/s
+// windspd-avg10m: km/h
 // winddir-avg10m: deg
-// windgustspd-2m: m/s
+// windgustspd-2m: km/h
 // windgustdir-2m: deg

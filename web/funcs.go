@@ -227,7 +227,7 @@ func convertPressure(value float64, unit string, system string) (float64, string
 	}
 
 	if unit == "hPa" {
-		value = float64(round(value))
+		value = round_nth(value, 1)
 	} else if unit == "inHg" {
 		value = round_nth(value, 2)
 	}

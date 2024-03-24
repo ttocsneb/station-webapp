@@ -4,8 +4,8 @@
     <h5>{{ .Title }}</h5>
   </div>
   <div class="card-body">
-    {{- $spd := convert .Speed "m/s" "speed" .System -}}
-    {{- $unit := get_unit .Speed "m/s" "speed" .System -}}
+    {{- $spd := convert .Speed "km/h" "speed" .System -}}
+    {{- $unit := get_unit .Speed "km/h" "speed" .System -}}
     <p>{{ $spd }} {{ $unit }}</p>
     <div title="{{ .Angle }}&deg;" aria-label="{{ cardinal_angle_aria .Angle }}">
     {{ template "wind-include.svg" . }}
@@ -60,7 +60,11 @@
     <div class="card-body">
       {{- $pressure := convert .Condition.Sensors.barom  "hPa" "pressure" .System -}}
       {{- $unit = get_unit .Condition.Sensors.barom  "hPa" "pressure" .System -}}
-      <p>{{ $pressure }} {{ $unit }}</p>
+      <span>{{ $pressure }} {{ $unit }}</span>
+      <p>At Sea Level</p>
+      {{- $pressure := convert ( index .Condition.Sensors "barom-sea" ) "hPa" "pressure" .System -}}
+      {{- $unit = get_unit ( index .Condition.Sensors "barom-sea" ) "hPa" "pressure" .System -}}
+      <span>{{ $pressure }} {{ $unit }}</span>
     </div>
   </div>
   {{- if not .Rapid -}}
