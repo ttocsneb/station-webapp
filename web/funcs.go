@@ -235,6 +235,54 @@ func convertPressure(value float64, unit string, system string) (float64, string
 	return value, unit
 }
 
+func convertTrend(value float64, unit string, system string) (float64, string) {
+	split := strings.Split(unit, "/")
+	if len(split) != 2 {
+		return value, unit
+	}
+	p := split[0]
+	if p == "Pa" {
+		value = value / 100
+		p = "hPa"
+	}
+	if p == "kPa" {
+		value = value * 10
+		p = "hPa"
+	}
+	if p == "hPa" && (system == IMPERIAL || system == MIXED) {
+		value = value / 33.86388666666671
+		p = "inHg"
+	}
+	if p == "inHg" && system == METRIC {
+		value = value * 33.86388666666671
+		p = "hPa"
+	}
+
+	t := split[1]
+	if t == "ms" {
+		value = value * 1000
+		t = "s"
+	}
+	if t == "s" {
+		value = value * 60
+		t = "m"
+	}
+	if t == "m" {
+		value = value * 60
+		t = "h"
+	}
+
+	unit = fmt.Sprintf("%v/%v", p, t)
+
+	if unit == "hPa/h" {
+		value = round_nth(value, 2)
+	} else if unit == "inHg/h" {
+		value = round_nth(value, 3)
+	}
+
+	return value, unit
+}
+
 func convertRain(value float64, unit string, system string) (float64, string) {
 	if unit == "in" && system == METRIC {
 		value = value * 25.4
@@ -279,6 +327,8 @@ func convert(value float64, unit string, sensor string, system string) (float64,
 		return convertRain(value, unit, system)
 	case "pressure":
 		return convertPressure(value, unit, system)
+	case "trend":
+		return convertTrend(value, unit, system)
 	case "speed":
 		return convertSpeed(value, unit, system)
 	}

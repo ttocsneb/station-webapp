@@ -58,12 +58,16 @@
       <h5>Pressure</h5>
     </div>
     <div class="card-body">
-      {{- $pressure := convert .Condition.Sensors.barom  "hPa" "pressure" .System -}}
-      {{- $unit = get_unit .Condition.Sensors.barom  "hPa" "pressure" .System -}}
-      <span>{{ $pressure }} {{ $unit }}</span>
-      <p>At Sea Level</p>
       {{- $pressure := convert ( index .Condition.Sensors "barom-sea" ) "hPa" "pressure" .System -}}
-      {{- $unit = get_unit ( index .Condition.Sensors "barom-sea" ) "hPa" "pressure" .System -}}
+      {{- $unit := get_unit ( index .Condition.Sensors "barom-sea" ) "hPa" "pressure" .System -}}
+      <span>{{ $pressure }} {{ $unit }}</span>
+      <p>General Trend</p>
+      {{- $pressure = convert ( index .Condition.Sensors "barom-trend" ) "hPa/h" "trend" .System -}}
+      {{- $unit = get_unit ( index .Condition.Sensors "barom-trend" ) "hPa/h" "trend" .System -}}
+      <span>{{ $pressure }} {{ $unit }}</span>
+      <p>Current Trend</p>
+      {{- $pressure = convert ( index .Condition.Sensors "barom-trend-now" ) "hPa/h" "trend" .System -}}
+      {{- $unit = get_unit ( index .Condition.Sensors "barom-trend-now" ) "hPa/h" "trend" .System -}}
       <span>{{ $pressure }} {{ $unit }}</span>
     </div>
   </div>
@@ -117,9 +121,9 @@
   <p>
     Updated on <time class="live-time" datetime="{{- ftime .Condition.Time "RFC3339" -}}">
       {{- if not .Rapid -}}
-        {{- ftime .Condition.Time "Mon, Jan 6 at 3:04 PM" -}}
+        {{- ftime .Condition.Time "Mon, Jan 2 at 3:04 PM" -}}
       {{- else -}}
-        {{- ftime .Condition.Time "Mon, Jan 6 at 3:04:05 PM" -}}
+        {{- ftime .Condition.Time "Mon, Jan 2 at 3:04:05 PM" -}}
       {{- end -}}
     </time>
   </p>
