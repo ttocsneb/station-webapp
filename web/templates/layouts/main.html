@@ -1,8 +1,10 @@
 {{- define "content" -}}
 <div class="nav">
-  <form class="system" action="{{ route "/system/" }}">
+  <p class="current-page">Weather</p>
+  <p><a href="/about/">About</a></p>
+  <form class="system float-right" action="{{ route "/system/" }}">
     <label for="system">
-      System
+      Units
     </label>
     <select name="system" onchange="this.form.submit()">
       <option value="imperial" 
@@ -23,27 +25,31 @@
       <button type="submit">Save</button>
     </noscript>
   </form>
-  <p class="float-right">
-    {{- if not .Rapid -}}
-    <a href="{{ route "/rapid/" }}">View Rapid</a>
-    {{- else -}}
-    <a href="{{ route "/" }}">View Normal</a>
-    {{- end -}}
-  </p>
 </div>
 
 
-<h1>Weather Conditions</h1>
+<h1>Weather in Provo</h1>
 
+<h3 class="error hidden" id="disconnected">Disconnected</h3>
 <div hx-ext="sse" 
-    {{ if not .Rapid -}}
-     sse-connect="{{ route "/sse/updates/" }}" 
-    {{- else -}}
      sse-connect="{{ route "/sse/rapid-updates/" }}" 
-    {{- end }}
      sse-swap="message">
   {{ template "update-partial.html" . }}
 </div>
+<script>
+  const errorTag = document.getElementById("disconnected");
+  function checkConnection() {
+    let updated = Date.parse(document.getElementsByClassName("live-time")[0].getAttribute("datetime"));
+    let now = new Date().getTime();
+    if (now - updated > 5000) {
+      errorTag.classList.remove("hidden");
+    } else {
+      errorTag.classList.add("hidden");
+    }
+    setTimeout(checkConnection, 5000);
+  }
+  setTimeout(checkConnection, 5000);
+</script>
 {{- end -}}
 
 {{- template "base.html" . -}}

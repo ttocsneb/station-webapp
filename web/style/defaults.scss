@@ -20,6 +20,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 16px;
 }
 
+h1 {
+  text-align: center;
+}
+
 hr {
     margin-bottom: 16px;
 }
@@ -78,13 +82,8 @@ pre {
 }
 
 p, blockquote {
-    max-width: 80ex;
     text-align: justify;
     text-justify: inter-word;
-
-    @include size("sm") {
-        text-align: left;
-    }
 }
 
 ul {

@@ -1,0 +1,59 @@
+{{- define "content" -}}
+<div class="nav">
+  <p><a href="/">Weather</a></p>
+  <p class="current-page">About</p>
+</div>
+
+<div style="width: min(85ex, 100%);margin: 0 auto;">
+<h1>About</h1>
+
+<img src="/static/images/station-closeup.jpg" />
+
+<p>
+My father had a personal weather station that broke down. With the company no
+longer manufacturing weather stations, I designed and built a better one using
+the old station's parts. A new device which allows you view the weather from
+outside the house.
+</p>
+<p> 
+This is a personal weather station which resides in Provo, Utah. It has been
+built from spare parts from an older commercial personal weather station. The
+web-app updates every 2.5 seconds providing you with live updates to the current
+conditions.
+</p>
+
+<h3>How the station works</h3>
+
+<p>
+As part of a research project, I designed a protocol that would allow many
+weather stations to join a network of weather stations to provide live updates
+to anyone to subscribe. This network is created with an MQTT broker that
+stations will push updates to and clients will listen on. 
+</p>
+<p>
+This weather station is separated into 3 parts: The sensors, the station, and
+the web-app. An Arduino on the roof is connected directly to all the sensors.
+Via an RS-232 link, the Arduino communicates with a Raspberry Pi computer which
+sends the data to a MQTT broker. The web-app&mdash;which you are currently
+on&mdash;is connected to the broker as a client saving updates to a database and
+displaying the current conditions to users.
+</p>
+<p>
+You can view the source code on my github at
+<ul>
+<li><a href="https://github.com/ttocsneb/station-webapp/">
+    github.com/ttocsneb/station-webapp</a> The web-app</li>
+<li><a href="https://github.com/ttocsneb/station-comms/">
+    github.com/ttocsneb/station-comms</a> The Communications layer</li>
+<li><a href="https://github.com/ttocsneb/station/">
+    github.com/ttocsneb/station</a> The Arduino firmware</li>
+</ul>
+</p>
+
+<img src="/static/images/station-portrait.jpg" />
+
+</div>
+
+{{- end -}}
+
+{{- template "base.html" -}}

@@ -26,6 +26,7 @@ func Main(db *sql.DB, client *station.Station) {
 
 	router.PathPrefix("/static/").Handler(http.HandlerFunc(serveStatic))
 	router.HandleFunc("/", serveMain(db))
+	router.HandleFunc("/about/", serveAbout)
 	router.HandleFunc("/rapid/", serveRapid(db))
 	router.Handle("/sse/updates/", serveUpdates(db, client))
 	router.Handle("/sse/rapid-updates/", serveRapidUpdates(db, client))

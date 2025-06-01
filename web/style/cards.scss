@@ -4,10 +4,23 @@
     padding: 10px;
 
     > * {
-        margin-top: auto;
-        margin-bottom: auto;
+      margin: auto 1ex;
     }
 }
+
+.current-page {
+  color: var(--secondary);
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  text-align: center;
+  color: var(--danger);
+}
+
 
 .float-right {
     margin-left: auto;

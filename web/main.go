@@ -30,8 +30,6 @@ func serveMain(db *sql.DB) http.HandlerFunc {
 			system = cookie.Value
 		}
 
-		logrus.Info(system)
-
 		err = renderTemplate(w, "main.html", vars{
 			"Condition": condition,
 			"System":    system,
@@ -62,8 +60,6 @@ func serveRapid(db *sql.DB) http.HandlerFunc {
 			system = cookie.Value
 		}
 
-		logrus.Info(system)
-
 		err = renderTemplate(w, "main.html", vars{
 			"Condition": condition,
 			"System":    system,
@@ -76,6 +72,17 @@ func serveRapid(db *sql.DB) http.HandlerFunc {
 			w.Write([]byte("<p>Invalid template</p>"))
 			return
 		}
+	}
+}
+
+func serveAbout(w http.ResponseWriter, r *http.Request) {
+	err := renderTemplate(w, "about.html", vars{
+		"Location": "Foothills, Provo, Utah, US",
+	})
+	if err != nil {
+		logError(w, err)
+		w.Write([]byte("<p>Invalid template</p>"))
+		return
 	}
 }
 
